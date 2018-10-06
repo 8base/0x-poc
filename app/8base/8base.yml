@@ -1,0 +1,48 @@
+functions:
+  # Resolvers
+  # orderByHash:
+  #   handler:
+  #     code: src/orderByHash.ts
+  #   type: resolver
+  #   schema: src/orderByHash.graphql
+
+
+  # Triggers
+  orderCreate:
+    handler:
+      code: src/orderCreate.ts
+    type: trigger.before
+    operation: Orders.create
+
+
+  # Webhooks
+  # tokenPairs:
+  #   handler:
+  #     code: src/tokenPairsGet.ts
+  #   type: webhook
+  #   method: GET
+  #   path: v0/token_pairs
+  # orders:
+  #   handler:
+  #     code: src/ordersGet.ts
+  #   type: webhook
+  #   method: GET
+  #   path: v0/orders   
+  # orderbook:
+  #   handler:
+  #     code: src/orderbook.ts
+  #   type: webhook
+  #   method: GET
+  #   path: v0/orderbook      
+  # order:
+  #   handler:
+  #     code: src/orderGet.ts
+  #   type: webhook
+  #   method: GET
+  #   path: v0/order
+  # orderPost:
+  #   handler:
+  #     code: src/orderPost.ts
+  #   type: webhook
+  #   method: POST
+  #   path: v0/order    

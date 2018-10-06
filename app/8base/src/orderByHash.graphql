@@ -1,0 +1,3 @@
+extend type Query {
+  orderByHash(hash: String!): Order1
+}

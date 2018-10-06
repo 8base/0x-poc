@@ -1,0 +1,18 @@
+.loan-request-row {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.highlight {
+    animation: highlight 2s;
+    animation-delay: 250ms;
+}
+
+@keyframes highlight {
+    0% {
+        background: #ffff99;
+    }
+    100% {
+        background: none;
+    }
+}

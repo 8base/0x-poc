@@ -1,0 +1,442 @@
+{
+  "tables": [
+    {
+      "id": "5b6703e5f907d1574b4aa6bf",
+      "name": "Orders",
+      "displayName": "Orders",
+      "isSystem": false,
+      "fields": [
+        {
+          "id": "5b67046ff907d1fc4d4aa84a",
+          "name": "exchangeContractAddress",
+          "displayName": "exchangeContractAddress",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b67046ff907d162a94aa84b",
+            "format": "UNFORMATTED",
+            "fieldSize": 42
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b670484f907d175594aa94f",
+          "name": "maker",
+          "displayName": "maker",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b670484f907d106f64aa950",
+            "format": "UNFORMATTED",
+            "fieldSize": 42
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67048ef907d10e3b4aaa56",
+          "name": "taker",
+          "displayName": "taker",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b67048ef907d1998d4aaa57",
+            "format": "UNFORMATTED",
+            "fieldSize": 42
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b670497f907d1e6794aab5f",
+          "name": "makerTokenAddress",
+          "displayName": "makerTokenAddress",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b670497f907d10a1e4aab60",
+            "format": "UNFORMATTED",
+            "fieldSize": 42
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b6704a0f907d16ccc4aac6a",
+          "name": "takerTokenAddress",
+          "displayName": "takerTokenAddress",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b6704a0f907d183224aac6b",
+            "format": "UNFORMATTED",
+            "fieldSize": 42
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b6704b3f907d181884aad77",
+          "name": "feeRecipient",
+          "displayName": "feeRecipient",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b6704b3f907d14d144aad78",
+            "format": "UNFORMATTED",
+            "fieldSize": 42
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b670544f907d1f7e94aae86",
+          "name": "makerTokenAmount",
+          "displayName": "makerTokenAmount",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b670544f907d1a9554aae87",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b670553f907d1d8374aaf97",
+          "name": "takerTokenAmount",
+          "displayName": "takerTokenAmount",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b670553f907d1f1524aaf98",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b670563f907d118d74ab0aa",
+          "name": "makerFee",
+          "displayName": "makerFee",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b670563f907d1676d4ab0ab",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b6709b3bbbd87fde464e9cd",
+          "name": "hash",
+          "displayName": "hash",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b6709b3bbbd87e32964e9ce",
+            "format": "UNFORMATTED",
+            "fieldSize": 200
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67069cbbbd8712f864e21d",
+          "name": "takerFee",
+          "displayName": "takerFee",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b67069cbbbd870ba064e21e",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b670733bbbd87633564e334",
+          "name": "expirationUnixTimestampSec",
+          "displayName": "expirationUnixTimestampSec",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b670733bbbd8767ad64e335",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b670762bbbd87298a64e44d",
+          "name": "salt",
+          "displayName": "salt",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b670762bbbd87728564e44e",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67082bf907d1f8a54ab362",
+          "name": "ecSignature",
+          "displayName": "ecSignature",
+          "description": null,
+          "fieldType": "JSON",
+          "fieldTypeAttributes": null,
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67b90adbec4c2745b86490",
+          "name": "price",
+          "displayName": "price",
+          "description": null,
+          "fieldType": "NUMBER",
+          "fieldTypeAttributes": {
+            "id": "5b67b90adbec4c4ee9b86491",
+            "format": "NUMBER",
+            "precision": 10,
+            "currency": null,
+            "minValue": 0,
+            "maxValue": null
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        }
+      ]
+    },
+    {
+      "id": "5b675f2065e6319042e34977",
+      "name": "TokenPairs",
+      "displayName": "Token Pairs",
+      "isSystem": false,
+      "fields": [
+        {
+          "id": "5b67a3c27241b2ff5ef57bf8",
+          "name": "tokenA",
+          "displayName": "tokenA",
+          "description": null,
+          "fieldType": "RELATION",
+          "fieldTypeAttributes": null,
+          "isList": false,
+          "isRequired": false,
+          "isUnique": null,
+          "defaultValue": null,
+          "relation": {
+            "id": "5b67a3c27241b2eeb0f57bf9",
+            "refFieldIsList": true,
+            "refFieldIsRequired": false,
+            "refFieldName": "tokenPairsA",
+            "refFieldDisplayName": "tokenPairsA",
+            "refTable": {
+              "name": "Tokens"
+            }
+          }
+        },
+        {
+          "id": "5b67a3f97241b2b007f57e61",
+          "name": "tokenB",
+          "displayName": "tokenB",
+          "description": null,
+          "fieldType": "RELATION",
+          "fieldTypeAttributes": null,
+          "isList": false,
+          "isRequired": false,
+          "isUnique": null,
+          "defaultValue": null,
+          "relation": {
+            "id": "5b67a3f97241b2695ff57e62",
+            "refFieldIsList": true,
+            "refFieldIsRequired": false,
+            "refFieldName": "tokenPairsB",
+            "refFieldDisplayName": "tokenPairsB",
+            "refTable": {
+              "name": "Tokens"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b67a161dbec4c198cb6eff7",
+      "name": "Tokens",
+      "displayName": "Tokens",
+      "isSystem": false,
+      "fields": [
+        {
+          "id": "5b67a176dbec4c9066b6f3b6",
+          "name": "address",
+          "displayName": "address",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b67a176dbec4c9becb6f3b7",
+            "format": "UNFORMATTED",
+            "fieldSize": 42
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": true,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67a181dbec4c07fcb6f6d4",
+          "name": "minAmount",
+          "displayName": "minAmount",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b67a181dbec4c54a3b6f6d5",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67a1967241b21457f563b8",
+          "name": "maxAmount",
+          "displayName": "maxAmount",
+          "description": null,
+          "fieldType": "TEXT",
+          "fieldTypeAttributes": {
+            "id": "5b67a1967241b2af4ff563b9",
+            "format": "UNFORMATTED",
+            "fieldSize": 100
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67a1ad7241b213cef568c3",
+          "name": "precision",
+          "displayName": "precision",
+          "description": null,
+          "fieldType": "NUMBER",
+          "fieldTypeAttributes": {
+            "id": "5b67a1ad7241b236d3f568c4",
+            "format": "NUMBER",
+            "precision": 0,
+            "currency": null,
+            "minValue": null,
+            "maxValue": null
+          },
+          "isList": false,
+          "isRequired": false,
+          "isUnique": false,
+          "defaultValue": null,
+          "relation": null
+        },
+        {
+          "id": "5b67a3c27241b288c1f57bfa",
+          "name": "tokenPairsA",
+          "displayName": "tokenPairsA",
+          "description": null,
+          "fieldType": "RELATION",
+          "fieldTypeAttributes": null,
+          "isList": true,
+          "isRequired": false,
+          "isUnique": null,
+          "defaultValue": null,
+          "relation": {
+            "id": "5b67a3c27241b20891f57bfb",
+            "refFieldIsList": false,
+            "refFieldIsRequired": false,
+            "refFieldName": "tokenA",
+            "refFieldDisplayName": "tokenA",
+            "refTable": {
+              "name": "TokenPairs"
+            }
+          }
+        },
+        {
+          "id": "5b67a3f97241b25ab4f57e63",
+          "name": "tokenPairsB",
+          "displayName": "tokenPairsB",
+          "description": null,
+          "fieldType": "RELATION",
+          "fieldTypeAttributes": null,
+          "isList": true,
+          "isRequired": false,
+          "isUnique": null,
+          "defaultValue": null,
+          "relation": {
+            "id": "5b67a3f97241b201a0f57e64",
+            "refFieldIsList": false,
+            "refFieldIsRequired": false,
+            "refFieldName": "tokenB",
+            "refFieldDisplayName": "tokenB",
+            "refTable": {
+              "name": "TokenPairs"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "version": "0.0.3"
+}

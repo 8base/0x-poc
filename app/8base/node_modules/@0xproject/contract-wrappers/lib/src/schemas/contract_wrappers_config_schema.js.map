@@ -1,0 +1,1 @@
+{"version":3,"file":"contract_wrappers_config_schema.js","sourceRoot":"","sources":["../../../src/schemas/contract_wrappers_config_schema.ts"],"names":[],"mappings":";;AAAa,QAAA,4BAA4B,GAAG;IACxC,EAAE,EAAE,yBAAyB;IAC7B,KAAK,EAAE,CAAC,EAAE,IAAI,EAAE,qCAAqC,EAAE,EAAE,EAAE,IAAI,EAAE,oCAAoC,EAAE,CAAC;IACxG,IAAI,EAAE,QAAQ;CACjB,CAAC"}
