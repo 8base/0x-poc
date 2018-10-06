@@ -15,7 +15,7 @@ import { getTokenMetaData } from './tokenMetadata';
 import { ORDER_BY_HASH as ORDER_QUERY } from "../services/graphql/queries"
 import { UPDATE_ORDER_STATE } from "../services/graphql/mutations"
 
-const ethers = require('ethers');
+//const ethers = require('ethers');
 
 const wyreFilterConfig = require('./contracts/WyreFilter');
 
@@ -120,39 +120,43 @@ function toTuple (obj) {
   return output;
 }
 
-const fillOrderAsync = (web3, signedOrder) => {  
+const fillOrderAsync = (web3, signedOrder) => {
   return new Promise(async (resolve, reject) => {
-    //console.log('web3.getProvider()', web3.getProvider());
-    const provider = ethers.getDefaultProvider();
-    const filterContractInstance = new ethers.Contract(FILTER_TOKEN_ADDRESS, FILTER_ABI, provider);
-    //const FilterContract = web3.getProvider().eth.contract(FILTER_ABI);        
-    // const filterContractInstance = FilterContract.at(FILTER_TOKEN_ADDRESS);
+ //   console.log('web3.getProvider()', web3.getProvider());
+///    const provider = ethers.getDefaultProvider();
+//    const filterContractInstance = new ethers.Contract(FILTER_TOKEN_ADDRESS, FILTER_ABI, provider);
+
+    console.log('web3', web3);
+    const filterContractInstance = new web3.eth.Contract(FILTER_ABI, FILTER_TOKEN_ADDRESS);
+//    const filterContractInstance = FilterContract.at(FILTER_TOKEN_ADDRESS);
     console.log('filterContractInstance', filterContractInstance);
     const order = {
       makerAddress: signedOrder.makerAddress,
       takerAddress: signedOrder.takerAddress,
       feeRecipientAddress: signedOrder.feeRecipientAddress,
       senderAddress: signedOrder.senderAddress,
-      makerAssetAmount: signedOrder.makerAssetAmount,
-      takerAssetAmount: signedOrder.takerAssetAmount,
+      makerAssetAmount: 1, //signedOrder.makerAssetAmount,
+      takerAssetAmount: 1, //signedOrder.takerAssetAmount,
       makerFee: signedOrder.makerFee,
       takerFee: signedOrder.takerFee,
-      expirationTimeSeconds: signedOrder.expirationTimeSeconds,
+      expirationTimeSeconds: 1, //signedOrder.expirationTimeSeconds,
       salt: signedOrder.salt,
       makerAssetData: signedOrder.makerAssetData,
       takerAssetData: signedOrder.takerAssetData
-    }
+    };
 
-    console.log(toTuple(order), signedOrder.signature);
-    const txHash = await filterContractInstance.conditionalFillOrder(
-      order, order.takerAssetAmount, signedOrder.signature);/*, (error, result) => {
+//    console.log(toTuple(order), signedOrder.signature);
+    console.log("filterContractInstance = ", filterContractInstance);
+    const txHash = await filterContractInstance.methods.conditionalFillOrder(
+      order, order.takerAssetAmount, signedOrder.signature/*, (error, result) => {
         if (error) {
           console.log('error', error);
           return reject(error);
         }
         console.log('Filled:', txHash, result);
-        return resolve(result);        
-    });    */
+        return resolve(result);
+    }*/).send({from: signedOrder.takerAddress});
+    console.log("txHash = ", txHash);
   });
 };
 
@@ -173,11 +177,11 @@ class OrderLoader extends Component {
   }
 
   async componentDidMount() {
-    // Get ApolloClient instance        
+    // Get ApolloClient instance
     const { client, hash } = this.props;
     const { web3Wrapper } = await getZeroEx;
 
-    
+
 
     try {
       const query = client.watchQuery({
@@ -230,20 +234,20 @@ class OrderLoader extends Component {
     });
   }
 
-  async fillOrder() {    
+  async fillOrder() {
     const { order } = this.state;
     const { client } = this.props;
-    const { contractWrappers, web3Wrapper, providerEngine } = await getZeroEx;    
-    
+    const { contractWrappers, web3Wrapper, providerEngine, web3 } = await getZeroEx;
+
     const shouldThrowOnInsufficientBalanceOrAllowance = true;
     const filltakerAssetAmount = new BigNumber(order.takerAssetAmount);
     const accounts = await web3Wrapper.getAvailableAddressesAsync();
     console.log('accounts', accounts);
     const takerAddress = accounts[0];
-    
+
 
     // Filling order
-    const txHash = await fillOrderAsync(web3Wrapper, order);
+    const txHash = await fillOrderAsync(web3, order);
 
     const { transactions } = this.state;
     transactions.push({ txHash, description: "Order Fill" });
@@ -259,8 +263,8 @@ class OrderLoader extends Component {
       {
         mutation: UPDATE_ORDER_STATE,
         variables: { id: order.id, isValid: false },
-        refetchQueries: ['ordersList', 'orderbook']        
-      });    
+        refetchQueries: ['ordersList', 'orderbook']
+      });
   }
 
   render() {

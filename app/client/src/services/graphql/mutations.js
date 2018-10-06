@@ -13,6 +13,7 @@ export const ORDER_CREATE = gql`
       takerAssetAmount
       makerFee
       takerFee
+      senderAddress
       expirationTimeSeconds
       salt
       signature

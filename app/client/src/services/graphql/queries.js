@@ -24,6 +24,7 @@ export const ORDERBOOK = gql`query orderbook($baseAssetData: String, $quoteAsset
     makerAssetAmount
     takerAssetAmount
     makerFee
+    senderAddress
     takerFee
     expirationTimeSeconds
     salt
@@ -56,6 +57,7 @@ export const ORDERBOOK = gql`query orderbook($baseAssetData: String, $quoteAsset
     makerAssetAmount
     takerAssetAmount
     makerFee
+    senderAddress
     takerFee
     expirationTimeSeconds
     salt
@@ -83,6 +85,7 @@ export const ORDER_BY_HASH = gql`
       feeRecipientAddress
       makerAssetAmount
       takerAssetAmount
+      senderAddress
       makerFee
       takerFee
       expirationTimeSeconds
