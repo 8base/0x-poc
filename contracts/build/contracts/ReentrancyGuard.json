@@ -11,14 +11,14 @@
     "absolutePath": "/Users/andreianisimov/projects/hackathon/contracts/contracts/utils/ReentrancyGuard/ReentrancyGuard.sol",
     "exportedSymbols": {
       "ReentrancyGuard": [
-        971
+        1022
       ]
     },
-    "id": 972,
+    "id": 1023,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 949,
+        "id": 1000,
         "literals": [
           "solidity",
           "0.4",
@@ -33,19 +33,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 971,
+        "id": 1022,
         "linearizedBaseContracts": [
-          971
+          1022
         ],
         "name": "ReentrancyGuard",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 952,
+            "id": 1003,
             "name": "locked",
             "nodeType": "VariableDeclaration",
-            "scope": 971,
+            "scope": 1022,
             "src": "667:27:8",
             "stateVariable": true,
             "storageLocation": "default",
@@ -54,7 +54,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 950,
+              "id": 1001,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "667:4:8",
@@ -66,7 +66,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "66616c7365",
-              "id": 951,
+              "id": 1002,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -85,7 +85,7 @@
           },
           {
             "body": {
-              "id": 969,
+              "id": 1020,
               "nodeType": "Block",
               "src": "871:306:8",
               "statements": [
@@ -95,7 +95,7 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 956,
+                        "id": 1007,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -106,11 +106,11 @@
                         "src": "938:7:8",
                         "subExpression": {
                           "argumentTypes": null,
-                          "id": 955,
+                          "id": 1006,
                           "name": "locked",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 952,
+                          "referencedDeclaration": 1003,
                           "src": "939:6:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
@@ -125,7 +125,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "5245454e5452414e43595f494c4c4547414c",
-                        "id": 957,
+                        "id": 1008,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -152,21 +152,21 @@
                           "typeString": "literal_string \"REENTRANCY_ILLEGAL\""
                         }
                       ],
-                      "id": 954,
+                      "id": 1005,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        1158,
-                        1159
+                        1209,
+                        1210
                       ],
-                      "referencedDeclaration": 1159,
+                      "referencedDeclaration": 1210,
                       "src": "917:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 958,
+                    "id": 1009,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -180,25 +180,25 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 959,
+                  "id": 1010,
                   "nodeType": "ExpressionStatement",
                   "src": "917:72:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 962,
+                    "id": 1013,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 960,
+                      "id": 1011,
                       "name": "locked",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 952,
+                      "referencedDeclaration": 1003,
                       "src": "1043:6:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -210,7 +210,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 961,
+                      "id": 1012,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -231,30 +231,30 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 963,
+                  "id": 1014,
                   "nodeType": "ExpressionStatement",
                   "src": "1043:13:8"
                 },
                 {
-                  "id": 964,
+                  "id": 1015,
                   "nodeType": "PlaceholderStatement",
                   "src": "1100:1:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 967,
+                    "id": 1018,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 965,
+                      "id": 1016,
                       "name": "locked",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 952,
+                      "referencedDeclaration": 1003,
                       "src": "1156:6:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -266,7 +266,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "66616c7365",
-                      "id": 966,
+                      "id": 1017,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -287,18 +287,18 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 968,
+                  "id": 1019,
                   "nodeType": "ExpressionStatement",
                   "src": "1156:14:8"
                 }
               ]
             },
             "documentation": "@dev Functions with this modifer cannot be reentered. The mutex will be locked\n      before function execution and unlocked after.",
-            "id": 970,
+            "id": 1021,
             "name": "nonReentrant",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 953,
+              "id": 1004,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "868:2:8"
@@ -307,7 +307,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 972,
+        "scope": 1023,
         "src": "606:573:8"
       }
     ],
@@ -317,14 +317,14 @@
     "absolutePath": "/Users/andreianisimov/projects/hackathon/contracts/contracts/utils/ReentrancyGuard/ReentrancyGuard.sol",
     "exportedSymbols": {
       "ReentrancyGuard": [
-        971
+        1022
       ]
     },
-    "id": 972,
+    "id": 1023,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 949,
+        "id": 1000,
         "literals": [
           "solidity",
           "0.4",
@@ -339,19 +339,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 971,
+        "id": 1022,
         "linearizedBaseContracts": [
-          971
+          1022
         ],
         "name": "ReentrancyGuard",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 952,
+            "id": 1003,
             "name": "locked",
             "nodeType": "VariableDeclaration",
-            "scope": 971,
+            "scope": 1022,
             "src": "667:27:8",
             "stateVariable": true,
             "storageLocation": "default",
@@ -360,7 +360,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 950,
+              "id": 1001,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "667:4:8",
@@ -372,7 +372,7 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "66616c7365",
-              "id": 951,
+              "id": 1002,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -391,7 +391,7 @@
           },
           {
             "body": {
-              "id": 969,
+              "id": 1020,
               "nodeType": "Block",
               "src": "871:306:8",
               "statements": [
@@ -401,7 +401,7 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 956,
+                        "id": 1007,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -412,11 +412,11 @@
                         "src": "938:7:8",
                         "subExpression": {
                           "argumentTypes": null,
-                          "id": 955,
+                          "id": 1006,
                           "name": "locked",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 952,
+                          "referencedDeclaration": 1003,
                           "src": "939:6:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
@@ -431,7 +431,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "5245454e5452414e43595f494c4c4547414c",
-                        "id": 957,
+                        "id": 1008,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -458,21 +458,21 @@
                           "typeString": "literal_string \"REENTRANCY_ILLEGAL\""
                         }
                       ],
-                      "id": 954,
+                      "id": 1005,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        1158,
-                        1159
+                        1209,
+                        1210
                       ],
-                      "referencedDeclaration": 1159,
+                      "referencedDeclaration": 1210,
                       "src": "917:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 958,
+                    "id": 1009,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -486,25 +486,25 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 959,
+                  "id": 1010,
                   "nodeType": "ExpressionStatement",
                   "src": "917:72:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 962,
+                    "id": 1013,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 960,
+                      "id": 1011,
                       "name": "locked",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 952,
+                      "referencedDeclaration": 1003,
                       "src": "1043:6:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -516,7 +516,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 961,
+                      "id": 1012,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -537,30 +537,30 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 963,
+                  "id": 1014,
                   "nodeType": "ExpressionStatement",
                   "src": "1043:13:8"
                 },
                 {
-                  "id": 964,
+                  "id": 1015,
                   "nodeType": "PlaceholderStatement",
                   "src": "1100:1:8"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 967,
+                    "id": 1018,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 965,
+                      "id": 1016,
                       "name": "locked",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 952,
+                      "referencedDeclaration": 1003,
                       "src": "1156:6:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -572,7 +572,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "66616c7365",
-                      "id": 966,
+                      "id": 1017,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -593,18 +593,18 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 968,
+                  "id": 1019,
                   "nodeType": "ExpressionStatement",
                   "src": "1156:14:8"
                 }
               ]
             },
             "documentation": "@dev Functions with this modifer cannot be reentered. The mutex will be locked\n      before function execution and unlocked after.",
-            "id": 970,
+            "id": 1021,
             "name": "nonReentrant",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 953,
+              "id": 1004,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "868:2:8"
@@ -613,7 +613,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 972,
+        "scope": 1023,
         "src": "606:573:8"
       }
     ],
@@ -625,5 +625,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-06T04:13:09.152Z"
+  "updatedAt": "2018-10-07T03:37:19.856Z"
 }

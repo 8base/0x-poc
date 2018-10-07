@@ -10,7 +10,7 @@ export default new Promise((resolve) => {
 //  const provider = window.web3.currentProvider;
 
   const providerEngine = new Web3ProviderEngine();
-  providerEngine.addProvider(new SignerSubprovider(window.web3.currentProvider));
+  providerEngine.addProvider(new SignerSubprovider(window.web3.currentProvider));  
   providerEngine.addProvider(new RPCSubprovider('https://kovan.infura.io/v3/9073e2cc18a3423d80019b6af0dee2dc'));
   providerEngine.start();
 

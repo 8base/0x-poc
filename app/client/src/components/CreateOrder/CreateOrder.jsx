@@ -69,8 +69,8 @@ class CreateOrder extends Component {
       takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(amount * price), tokenPair.tokenA.decimals);
     }
     
-    //const setMakerAllowTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(makerTokenAddress, makerAddress);
-    //await web3Wrapper.awaitTransactionSuccessAsync(setMakerAllowTxHash);
+    const setMakerAllowTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(makerTokenAddress, makerAddress);
+    await web3Wrapper.awaitTransactionSuccessAsync(setMakerAllowTxHash);
     console.log('makerAddress allowance mined...');
 
     try {
@@ -80,7 +80,7 @@ class CreateOrder extends Component {
         feeRecipientAddress: NULL_ADDRESS,
         makerAssetData,
         takerAssetData,
-        senderAddress: '0x77190f37303bea47fc61c9d3a94412d97e7fabe0',
+        senderAddress: NULL_ADDRESS, //'0x77190f37303bea47fc61c9d3a94412d97e7fabe0',
         exchangeAddress: contractWrappers.exchange.getContractAddress(),
         salt: generatePseudoRandomSalt(),
         makerFee: new BigNumber(0),

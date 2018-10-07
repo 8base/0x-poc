@@ -75,10 +75,6 @@ exports.default = (function (event, context) { return __awaiter(_this, void 0, v
                 takerAssetAmount = new BigNumber(order.takerAssetAmount);
                 makerAssetAmount = new BigNumber(order.makerAssetAmount);
                 price = order.isBuy ? makerAssetAmount.dividedBy(takerAssetAmount).toPrecision(18) : takerAssetAmount.dividedBy(makerAssetAmount).toPrecision(18);
-                // Check that `senderAddress` is set to our Filter contract
-                if (order.senderAddress !== FILTER_ADDRESS) {
-                    throw new Error('Incorrect senderAdress. Rejecting order.');
-                }
                 return [4 /*yield*/, verifyAddress(order.makerAddress)];
             case 1:
                 verified = _a.sent();

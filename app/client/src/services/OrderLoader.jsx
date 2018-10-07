@@ -3,7 +3,7 @@ import { Component } from "react";
 import { withApollo } from 'react-apollo';
 import { compose } from 'react-apollo';
 import { BigNumber } from '@0xproject/utils';
-import { ZeroEx } from '0x.js';
+import { assetDataUtils, generatePseudoRandomSalt } from '0x.js';
 import Web3 from 'web3';
 import getZeroEx from './getZeroEx';
 // config
@@ -15,11 +15,26 @@ import { getTokenMetaData } from './tokenMetadata';
 import { ORDER_BY_HASH as ORDER_QUERY } from "../services/graphql/queries"
 import { UPDATE_ORDER_STATE } from "../services/graphql/mutations"
 
-//const ethers = require('ethers');
+const ethers = require('ethers');
 
 const wyreFilterConfig = require('./contracts/WyreFilter');
 
 const FILTER_ABI = [
+  {
+    "inputs": [
+      {
+        "name": "_exchange",
+        "type": "address"
+      },
+      {
+        "name": "_wyre",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
   {
     "constant": false,
     "inputs": [
@@ -82,6 +97,10 @@ const FILTER_ABI = [
         "type": "uint256"
       },
       {
+        "name": "salt",
+        "type": "uint256"
+      },
+      {
         "name": "signature",
         "type": "bytes"
       }
@@ -93,34 +112,10 @@ const FILTER_ABI = [
     "type": "function"
   }
 ];
-const FILTER_TOKEN_ADDRESS = '0x77190f37303bea47fc61c9d3a94412d97e7fabe0';
+const FILTER_TOKEN_ADDRESS = '0x5b8c8957b14e1455685c84c6b5c9830d0cc02789';
 
-function toTuple (obj) {
-  if (!(obj instanceof Object)) {
-    return [];
-  }
-  var output = [];
-  var i = 0;
-  Object.keys(obj).forEach((k) => {
-    if (obj[k] instanceof Object) {
-      output[i] = toTuple(obj[k]);
-    } else if (obj[k] instanceof Array) {
-      let j1 = 0;
-      let temp1 = [];
-      obj[k].forEach((ak) => {
-        temp1[j1] = toTuple(obj[k]);
-        j1++;
-      });
-      output[i] = temp1;
-    } else {
-      output[i] = obj[k];
-    }
-    i++;
-  });
-  return output;
-}
 
-const fillOrderAsync = (web3, signedOrder) => {
+const fillOrderAsync = (web3, signedOrder, takerAddress) => {
   return new Promise(async (resolve, reject) => {
  //   console.log('web3.getProvider()', web3.getProvider());
 ///    const provider = ethers.getDefaultProvider();
@@ -130,32 +125,28 @@ const fillOrderAsync = (web3, signedOrder) => {
     const filterContractInstance = new web3.eth.Contract(FILTER_ABI, FILTER_TOKEN_ADDRESS);
 //    const filterContractInstance = FilterContract.at(FILTER_TOKEN_ADDRESS);
     console.log('filterContractInstance', filterContractInstance);
+    
     const order = {
       makerAddress: signedOrder.makerAddress,
       takerAddress: signedOrder.takerAddress,
       feeRecipientAddress: signedOrder.feeRecipientAddress,
       senderAddress: signedOrder.senderAddress,
-      makerAssetAmount: 1, //signedOrder.makerAssetAmount,
-      takerAssetAmount: 1, //signedOrder.takerAssetAmount,
+      makerAssetAmount: ethers.utils.bigNumberify(signedOrder.makerAssetAmount.toString()),
+      takerAssetAmount: ethers.utils.bigNumberify(signedOrder.takerAssetAmount.toString()),
       makerFee: signedOrder.makerFee,
       takerFee: signedOrder.takerFee,
-      expirationTimeSeconds: 1, //signedOrder.expirationTimeSeconds,
+      expirationTimeSeconds: ethers.utils.bigNumberify(signedOrder.expirationTimeSeconds.toString()),
       salt: signedOrder.salt,
       makerAssetData: signedOrder.makerAssetData,
       takerAssetData: signedOrder.takerAssetData
     };
 
-//    console.log(toTuple(order), signedOrder.signature);
-    console.log("filterContractInstance = ", filterContractInstance);
+    console.log("order = ", order);
+    
+    const salt = generatePseudoRandomSalt();
+
     const txHash = await filterContractInstance.methods.conditionalFillOrder(
-      order, order.takerAssetAmount, signedOrder.signature/*, (error, result) => {
-        if (error) {
-          console.log('error', error);
-          return reject(error);
-        }
-        console.log('Filled:', txHash, result);
-        return resolve(result);
-    }*/).send({from: signedOrder.takerAddress});
+      order, order.takerAssetAmount, ethers.utils.bigNumberify(salt.toString()), signedOrder.signature).send({ from: takerAddress, gas: 5000000 });
     console.log("txHash = ", txHash);
   });
 };
@@ -241,13 +232,34 @@ class OrderLoader extends Component {
 
     const shouldThrowOnInsufficientBalanceOrAllowance = true;
     const filltakerAssetAmount = new BigNumber(order.takerAssetAmount);
+    console.log('before accounts');
     const accounts = await web3Wrapper.getAvailableAddressesAsync();
     console.log('accounts', accounts);
     const takerAddress = accounts[0];
 
+    // Allowance
+    /*const takerTokenAddress = assetDataUtils.decodeERC20AssetData(order.takerAssetData).tokenAddress;
+    const setTakerAllowTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(takerTokenAddress, takerAddress);
+    await web3Wrapper.awaitTransactionSuccessAsync(setTakerAllowTxHash);
+    console.log('takerAddress allowance mined...');*/
+
+    // Validator approval
+    const validatorApprovalTxHash = await contractWrappers.exchange.setSignatureValidatorApprovalAsync(
+      FILTER_TOKEN_ADDRESS, true, takerAddress,
+      {
+        gasLimit: 5000000
+      });
+    await web3Wrapper.awaitTransactionSuccessAsync(validatorApprovalTxHash);
+    console.log('Validator Approval Mined');
 
     // Filling order
-    const txHash = await fillOrderAsync(web3, order);
+    const txHash = await fillOrderAsync(web3, order, takerAddress);
+    
+    /*const txHash = await contractWrappers.exchange.fillOrderAsync(order, order.takerAssetAmount, takerAddress, {
+      gasLimit: 5000000,
+    });*/
+    await web3Wrapper.awaitTransactionSuccessAsync(txHash);
+    console.log('Mined');
 
     const { transactions } = this.state;
     transactions.push({ txHash, description: "Order Fill" });

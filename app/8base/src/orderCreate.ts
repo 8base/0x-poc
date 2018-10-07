@@ -32,9 +32,9 @@ export default async (event: any, context: any) => {
   const price = order.isBuy ? makerAssetAmount.dividedBy(takerAssetAmount).toPrecision(18) : takerAssetAmount.dividedBy(makerAssetAmount).toPrecision(18);
 
   // Check that `senderAddress` is set to our Filter contract
-  if (order.senderAddress !== FILTER_ADDRESS) {
+  /*if (order.senderAddress !== FILTER_ADDRESS) {
     throw new Error('Incorrect senderAdress. Rejecting order.');
-  }
+  }*/
 
   // Verify maker address
   const verified = await verifyAddress(order.makerAddress);
