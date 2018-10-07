@@ -6,6 +6,7 @@ import { assetDataUtils, contractWrappers, generatePseudoRandomSalt } from '0x.j
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 // Components
+import config from '../../config';
 import Loading from "../Loading/Loading";
 import TimeUnitSelect from "./TimeUnitSelect/TimeUnitSelect";
 import TokenPairSelect from "./TokenPairSelect/TokenPairSelect";
@@ -80,7 +81,7 @@ class CreateOrder extends Component {
         feeRecipientAddress: NULL_ADDRESS,
         makerAssetData,
         takerAssetData,
-        senderAddress: NULL_ADDRESS, //'0x77190f37303bea47fc61c9d3a94412d97e7fabe0',
+        senderAddress: config.filterContractAddress,
         exchangeAddress: contractWrappers.exchange.getContractAddress(),
         salt: generatePseudoRandomSalt(),
         makerFee: new BigNumber(0),

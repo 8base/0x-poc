@@ -25,6 +25,17 @@ export const ORDER_CREATE = gql`
   }
 `;
 
+export const UPDATE_ORDER_VALID = gql`mutation orderUpdate($id: ID!, $isValid: Boolean) {
+  orderUpdate(data: {
+    id: $id,  
+    isValid: $isValid
+  }) {
+    id
+  }
+  }
+  `;
+  
+
 export const UPDATE_ORDER_STATE = gql`mutation orderStateUpdate($id: ID!, $isValid: Boolean) {
 orderStateUpdate(data: {
   id: $id,  

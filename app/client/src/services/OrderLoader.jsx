@@ -13,7 +13,7 @@ import { getTokenMetaData } from './tokenMetadata';
 
 // API
 import { ORDER_BY_HASH as ORDER_QUERY } from "../services/graphql/queries"
-import { UPDATE_ORDER_STATE } from "../services/graphql/mutations"
+import { UPDATE_ORDER_VALID } from "../services/graphql/mutations"
 
 const ethers = require('ethers');
 
@@ -112,19 +112,11 @@ const FILTER_ABI = [
     "type": "function"
   }
 ];
-const FILTER_TOKEN_ADDRESS = '0x5b8c8957b14e1455685c84c6b5c9830d0cc02789';
 
 
 const fillOrderAsync = (web3, signedOrder, takerAddress) => {
   return new Promise(async (resolve, reject) => {
- //   console.log('web3.getProvider()', web3.getProvider());
-///    const provider = ethers.getDefaultProvider();
-//    const filterContractInstance = new ethers.Contract(FILTER_TOKEN_ADDRESS, FILTER_ABI, provider);
-
-    console.log('web3', web3);
-    const filterContractInstance = new web3.eth.Contract(FILTER_ABI, FILTER_TOKEN_ADDRESS);
-//    const filterContractInstance = FilterContract.at(FILTER_TOKEN_ADDRESS);
-    console.log('filterContractInstance', filterContractInstance);
+    const filterContractInstance = new web3.eth.Contract(FILTER_ABI, config.filterContractAddress);
     
     const order = {
       makerAddress: signedOrder.makerAddress,
@@ -245,7 +237,7 @@ class OrderLoader extends Component {
 
     // Validator approval
     const validatorApprovalTxHash = await contractWrappers.exchange.setSignatureValidatorApprovalAsync(
-      FILTER_TOKEN_ADDRESS, true, takerAddress,
+      config.filterContractAddress, true, takerAddress,
       {
         gasLimit: 5000000
       });
@@ -253,13 +245,13 @@ class OrderLoader extends Component {
     console.log('Validator Approval Mined');
 
     // Filling order
-    const txHash = await fillOrderAsync(web3, order, takerAddress);
+    //const txHash = await fillOrderAsync(web3, order, takerAddress);
     
-    /*const txHash = await contractWrappers.exchange.fillOrderAsync(order, order.takerAssetAmount, takerAddress, {
+    /* const txHash = await contractWrappers.exchange.fillOrderAsync(order, order.takerAssetAmount, takerAddress, {
       gasLimit: 5000000,
     });*/
     await web3Wrapper.awaitTransactionSuccessAsync(txHash);
-    console.log('Mined');
+    console.log('Fill Order Mined');
 
     const { transactions } = this.state;
     transactions.push({ txHash, description: "Order Fill" });
@@ -273,7 +265,7 @@ class OrderLoader extends Component {
     // Create Loan Request and update local cache
     await client.mutate(
       {
-        mutation: UPDATE_ORDER_STATE,
+        mutation: UPDATE_ORDER_VALID,
         variables: { id: order.id, isValid: false },
         refetchQueries: ['ordersList', 'orderbook']
       });
