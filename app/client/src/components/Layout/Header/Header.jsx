@@ -22,10 +22,6 @@ class Header extends Component {
                     <LinkContainer to="/create">
                         <NavItem>Create</NavItem>
                     </LinkContainer>
-
-                    <LinkContainer to="/pairs">
-                        <NavItem>Token Pairs</NavItem>
-                    </LinkContainer>
                 </Nav>
             </Navbar>
         );

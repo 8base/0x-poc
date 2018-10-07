@@ -9,6 +9,8 @@ import CreateOrderContainer from "../../../containers/CreateOrder";
 // import TokenPairsContainer from "../../../containers/TokenPairs";
 import OrderContainer from "../../../containers/Order";
 
+import Login from "../../Login/Login";
+
 // Styling
 import "./Main.css";
 
@@ -19,7 +21,7 @@ class Main extends Component {
     return (
       <main className="Main">
         <Grid>
-          <Switch>
+          <Switch>            
             <Route path="/" exact={true} component={OrderbookContainer} />
             <Route path="/create" component={CreateOrderContainer} />
             {/*<Route path="/tokens" component={TokenPairsContainer} />*/}

@@ -114,33 +114,31 @@ const FILTER_ABI = [
 ];
 
 
-const fillOrderAsync = (web3, signedOrder, takerAddress) => {
-  return new Promise(async (resolve, reject) => {
-    const filterContractInstance = new web3.eth.Contract(FILTER_ABI, config.filterContractAddress);
-    
-    const order = {
-      makerAddress: signedOrder.makerAddress,
-      takerAddress: signedOrder.takerAddress,
-      feeRecipientAddress: signedOrder.feeRecipientAddress,
-      senderAddress: signedOrder.senderAddress,
-      makerAssetAmount: ethers.utils.bigNumberify(signedOrder.makerAssetAmount.toString()),
-      takerAssetAmount: ethers.utils.bigNumberify(signedOrder.takerAssetAmount.toString()),
-      makerFee: signedOrder.makerFee,
-      takerFee: signedOrder.takerFee,
-      expirationTimeSeconds: ethers.utils.bigNumberify(signedOrder.expirationTimeSeconds.toString()),
-      salt: signedOrder.salt,
-      makerAssetData: signedOrder.makerAssetData,
-      takerAssetData: signedOrder.takerAssetData
-    };
+const fillOrderAsync = async (web3, signedOrder, takerAddress) => {
+  const filterContractInstance = new web3.eth.Contract(FILTER_ABI, config.filterContractAddress);
 
-    console.log("order = ", order);
-    
-    const salt = generatePseudoRandomSalt();
+  const order = {
+    makerAddress: signedOrder.makerAddress,
+    takerAddress: signedOrder.takerAddress,
+    feeRecipientAddress: signedOrder.feeRecipientAddress,
+    senderAddress: signedOrder.senderAddress,
+    makerAssetAmount: ethers.utils.bigNumberify(signedOrder.makerAssetAmount.toString()),
+    takerAssetAmount: ethers.utils.bigNumberify(signedOrder.takerAssetAmount.toString()),
+    makerFee: signedOrder.makerFee,
+    takerFee: signedOrder.takerFee,
+    expirationTimeSeconds: ethers.utils.bigNumberify(signedOrder.expirationTimeSeconds.toString()),
+    salt: signedOrder.salt,
+    makerAssetData: signedOrder.makerAssetData,
+    takerAssetData: signedOrder.takerAssetData
+  };
 
-    const txHash = await filterContractInstance.methods.conditionalFillOrder(
-      order, order.takerAssetAmount, ethers.utils.bigNumberify(salt.toString()), signedOrder.signature).send({ from: takerAddress, gas: 5000000 });
-    console.log("txHash = ", txHash);
-  });
+  console.log("order = ", order);
+
+  const salt = generatePseudoRandomSalt();
+
+  const result = await filterContractInstance.methods.conditionalFillOrder(
+    order, order.takerAssetAmount, ethers.utils.bigNumberify(salt.toString()), signedOrder.signature).send({ from: takerAddress, gas: 5000000 });
+  return result ? result.transactionHash : null;
 };
 
 class OrderLoader extends Component {
@@ -220,7 +218,7 @@ class OrderLoader extends Component {
   async fillOrder() {
     const { order } = this.state;
     const { client } = this.props;
-    const { contractWrappers, web3Wrapper, providerEngine, web3 } = await getZeroEx;
+    const { contractWrappers, web3Wrapper, providerEngine } = await getZeroEx;
 
     const shouldThrowOnInsufficientBalanceOrAllowance = true;
     const filltakerAssetAmount = new BigNumber(order.takerAssetAmount);
@@ -245,23 +243,23 @@ class OrderLoader extends Component {
     console.log('Validator Approval Mined');
 
     // Filling order
-    //const txHash = await fillOrderAsync(web3, order, takerAddress);
-    
+    const web3 = new Web3(window.web3.currentProvider);
+    const fillOrderTxHash = await fillOrderAsync(web3, order, takerAddress);
+    console.log('fillOrderTxHash', fillOrderTxHash);
     /* const txHash = await contractWrappers.exchange.fillOrderAsync(order, order.takerAssetAmount, takerAddress, {
       gasLimit: 5000000,
     });*/
-    await web3Wrapper.awaitTransactionSuccessAsync(txHash);
+    const txReceipt = await web3Wrapper.awaitTransactionSuccessAsync(fillOrderTxHash);
     console.log('Fill Order Mined');
 
     const { transactions } = this.state;
-    transactions.push({ txHash, description: "Order Fill" });
+    transactions.push({ fillOrderTxHash, description: "Order Fill" });
 
     this.setState({
       transactions
     });
 
-    // Transaction receipt
-    const txReceipt = await web3Wrapper.awaitTransactionSuccessAsync(txHash);
+
     // Create Loan Request and update local cache
     await client.mutate(
       {

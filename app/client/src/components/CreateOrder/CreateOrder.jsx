@@ -55,7 +55,7 @@ class CreateOrder extends Component {
       takerTokenAddress = tokenPair.tokenB.address;
       makerAssetData = assetDataUtils.encodeERC20AssetData(makerTokenAddress);      
       takerAssetData = assetDataUtils.encodeERC20AssetData(takerTokenAddress);
-      makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(amount * price), tokenPair.tokenA.decimals);
+      makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber((amount * price).toString()), tokenPair.tokenA.decimals);
       takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(amount), tokenPair.tokenB.decimals);
     }
 
@@ -67,7 +67,7 @@ class CreateOrder extends Component {
       makerAssetData = assetDataUtils.encodeERC20AssetData(makerTokenAddress);
       takerAssetData = assetDataUtils.encodeERC20AssetData(takerTokenAddress);
       makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(amount), tokenPair.tokenB.decimals);
-      takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(amount * price), tokenPair.tokenA.decimals);
+      takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber((amount * price).toString()), tokenPair.tokenA.decimals);
     }
     
     const setMakerAllowTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(makerTokenAddress, makerAddress);
