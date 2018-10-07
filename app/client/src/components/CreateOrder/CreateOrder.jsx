@@ -1,6 +1,6 @@
 // External libraries
 import React, { Component } from "react";
-import { Button, Col, ControlLabel, Form, FormControl, FormGroup, Radio } from "react-bootstrap";
+import { Button, Col, ControlLabel, Form, FormControl, FormGroup, Radio, Tabs, Tab } from "react-bootstrap";
 import { BigNumber } from '@0xproject/utils';
 import { assetDataUtils, contractWrappers, generatePseudoRandomSalt } from '0x.js';
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
@@ -10,6 +10,9 @@ import config from '../../config';
 import Loading from "../Loading/Loading";
 import TimeUnitSelect from "./TimeUnitSelect/TimeUnitSelect";
 import TokenPairSelect from "./TokenPairSelect/TokenPairSelect";
+import ERC20Form from "./Forms/ERC20Form";
+import DharmaForm from "./Forms/DharmaForm";
+
 
 // 0x
 import getZeroEx from '../../services/getZeroEx';
@@ -30,16 +33,28 @@ class CreateOrder extends Component {
       tokenPairId: "1"
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.getTokenPairById = this.getTokenPairById.bind(this);
-    this.CreateOrder = this.CreateOrder.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);    
+    this.CreateOrderERC20 = this.CreateOrderERC20.bind(this);
+    this.CreateOrderDharma = this.CreateOrderDharma.bind(this);
   }
 
-  async CreateOrder(event) {
-    event.preventDefault();    
+  getTokenPairById = (tokenPairId) => {
+    const { tokenPairs } = this.props;
+    return tokenPairs.find((tokenPair) => {
+      return tokenPair.id == tokenPairId;
+    });
+  }
 
-    const { handleCreateOrder, onCompletion, tokenPairs } = this.props;
-    const { orderDirection, amount, price, tokenPairId } = this.state;
+  async CreateOrderERC20(event) {
+    event.preventDefault();
+    // orderDirection, amount, price, tokenPairId
+    // console.log('CreateOrder', event.target.elements.orderDirection.value);  
+    const orderDirection = event.target.elements.orderDirection.value;
+    const amount = event.target.elements.amount.value;
+    const price = event.target.elements.price.value;
+    const tokenPairId = event.target.elements.tokenPairId.value;
+
+    const { handleCreateOrder, onCompletion, tokenPairs } = this.props;    
     const { contractWrappers, web3Wrapper } = await getZeroEx;    
     const accounts = await web3Wrapper.getAvailableAddressesAsync();    
     const makerAddress = accounts[0];
@@ -97,6 +112,56 @@ class CreateOrder extends Component {
     }
   }
 
+  async CreateOrderDharma(event) {
+    event.preventDefault();
+    // orderDirection, amount, price, tokenPairId
+    // console.log('CreateOrder', event.target.elements.orderDirection.value);  
+    const tokenId = event.target.elements.tokenId.value;    
+    const price = event.target.elements.price.value;    
+
+    const { handleCreateOrder, onCompletion, tokenPairs } = this.props;    
+    const { contractWrappers, web3Wrapper } = await getZeroEx;    
+    const accounts = await web3Wrapper.getAvailableAddressesAsync();    
+    const makerAddress = accounts[0];
+    console.log('makerAddress', makerAddress);
+    const WETH_ADDRESS = contractWrappers.etherToken.getContractAddressIfExists();    
+
+    let makerTokenAddress, makerAssetData, takerAssetData, makerAssetAmount, takerAssetAmount;
+    
+    
+    makerAssetData = assetDataUtils.encodeERC721AssetData(config.dharmaDebtToken, tokenId);      
+    takerAssetData = assetDataUtils.encodeERC20AssetData(WETH_ADDRESS);
+    makerAssetAmount = Web3Wrapper.toBaseUnitAmount(1, 0);
+    takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(price), 18);
+  
+    
+    const setMakerAllowTxHash = await contractWrappers.erc721Token.setProxyApprovalAsync(config.dharmaDebtToken, tokenId);
+    await web3Wrapper.awaitTransactionSuccessAsync(setMakerAllowTxHash);
+    console.log('makerAddress allowance mined...');
+
+    try {
+      const id = await handleCreateOrder({
+        makerAddress: makerAddress,
+        takerAddress: NULL_ADDRESS,
+        feeRecipientAddress: NULL_ADDRESS,
+        makerAssetData,
+        takerAssetData,
+        senderAddress: config.filterContractAddress,
+        exchangeAddress: contractWrappers.exchange.getContractAddress(),
+        salt: generatePseudoRandomSalt(),
+        makerFee: new BigNumber(0),
+        takerFee: new BigNumber(0),
+        makerAssetAmount,
+        takerAssetAmount,
+        expirationTimeSeconds: new BigNumber(Date.now() + 3600000), // Valid for up to an hour
+        isBuy: false
+      });
+      onCompletion(id);
+    } catch (e) {
+      console.error(e);
+    }
+  }  
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -104,13 +169,6 @@ class CreateOrder extends Component {
     
     this.setState({
       [name]: value,
-    });
-  }
-
-  getTokenPairById(tokenPairId) {
-    const { tokenPairs } = this.props;
-    return tokenPairs.find((tokenPair) => {
-      return tokenPair.id == tokenPairId;
     });
   }
 
@@ -126,9 +184,7 @@ class CreateOrder extends Component {
       amount,
       price,
       tokenPairId
-    } = this.state;
-
-    const tokenPair = this.getTokenPairById(tokenPairId);
+    } = this.state;    
 
     const labelWidth = 3;
     const dropdownWidth = 3;
@@ -136,69 +192,11 @@ class CreateOrder extends Component {
 
     return (
       <Col md={6}>
-        <Form horizontal onSubmit={this.CreateOrder}>
-
-          <FormGroup controlId="tokenPair">
-            <Col componentClass={ControlLabel} sm={labelWidth}>
-              Token Pair
-            </Col>
-            <Col sm={inputWidth}>
-              <TokenPairSelect
-                name="tokenPairId"
-                onChange={this.handleInputChange}
-                defaultValue={tokenPairId}
-                tokenPairs={tokenPairs}
-              />
-            </Col>
-          </FormGroup>
-
-          <FormGroup controlId="orderDirection" onChange={this.handleInputChange}>
-            <Col componentClass={ControlLabel} sm={labelWidth}>
-              Order Direction
-            </Col>
-            <Col sm={inputWidth}>
-              <Radio name="orderDirection" defaultChecked={orderDirection == 'Buy'} inline  value="Buy">Buy</Radio>{' '}
-              <Radio name="orderDirection" defaultChecked={orderDirection == 'Sell'} inline value="Sell">Sell</Radio>{' '}
-            </Col>
-          </FormGroup>
-
-          <FormGroup controlId="amount">
-            <Col componentClass={ControlLabel} sm={labelWidth}>
-              Amount ({tokenPair.tokenB.symbol})
-            </Col>
-            <Col sm={inputWidth}>
-              <FormControl
-                onChange={this.handleInputChange}
-                type="number"
-                placeholder="Amount"
-                name="amount"
-                value={amount}
-              />
-            </Col>
-          </FormGroup>
-
-          <FormGroup controlId="price">
-            <Col componentClass={ControlLabel} sm={labelWidth}>
-              Price ({tokenPair.tokenA.symbol})
-            </Col>
-            <Col sm={inputWidth}>
-              <FormControl
-                onChange={this.handleInputChange}
-                type="number"
-                name="price"
-                placeholder="Price"
-                value={price}
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup>
-            <Col smOffset={labelWidth} sm={10}>
-              <Button type="submit" bsStyle="primary">
-                Create
-              </Button>
-            </Col>
-          </FormGroup>
-        </Form>
+        <Tabs id="form-selector">          
+          <Tab eventKey={1} title="ERC20"><ERC20Form tokenPairs={tokenPairs} handleSubmit={this.CreateOrderERC20} /></Tab>
+          <Tab eventKey={2} title="Dharma"><DharmaForm handleSubmit={this.CreateOrderDharma} /></Tab>
+        </Tabs>
+        
       </Col>
     );
   }

@@ -58,7 +58,7 @@ class Layout extends Component {
   verifyAddress = async (address, web3) => {
     const wyreYesInstance = new web3.eth.Contract(WYRE_ABI, config.wyreContractAddress);
     const balance = await wyreYesInstance.methods.balanceOf(address).call({ from: address });
-    console.log('balance', balance);
+    
     return balance > 0;
   }
 
