@@ -425,11 +425,19 @@ class DharmaForm extends Component {
     const balance = await DDT.methods.balanceOf(account).call();    
     console.log('balance', balance);
 
-    const tokenIds = [];
+/*    const tokenIds = [];
     for(let i = 0; i < balance; i++) {
       const tokenId = await DDT.methods.tokenOfOwnerByIndex(account, i).call();
       tokenIds.push(tokenId);
+    }   */
+    
+    //let tokenIds = [];
+    const promises = [];
+    for(let i = 0; i < balance; i++) {
+      promises.push(DDT.methods.tokenOfOwnerByIndex(account, i).call());
+//      tokenIds.push(tokenId);
     }    
+    const tokenIds = await Promise.all(promises);
 
     this.setState({ tokenIds });
   }

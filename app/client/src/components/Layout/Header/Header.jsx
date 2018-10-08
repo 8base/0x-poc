@@ -11,7 +11,7 @@ class Header extends Component {
         return (
             <Navbar>
                 <Navbar.Header>
-                    <Navbar.Brand>0x Relayer</Navbar.Brand>
+                    <Navbar.Brand>RegDEX</Navbar.Brand>
                 </Navbar.Header>
 
                 <Nav>

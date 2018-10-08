@@ -26,7 +26,8 @@ export default async (event: any, context: any) => {
   console.log('event', event);
 
   const order = event.data;
-  const orderHash = orderHashUtils.getOrderHashHex(order);
+  const { signature, ...unsignedOrder } = event.data;
+  const orderHash = orderHashUtils.getOrderHashHex(unsignedOrder);
   const takerAssetAmount = new BigNumber(order.takerAssetAmount);
   const makerAssetAmount = new BigNumber(order.makerAssetAmount);
   const price = order.isBuy ? makerAssetAmount.dividedBy(takerAssetAmount).toPrecision(18) : takerAssetAmount.dividedBy(makerAssetAmount).toPrecision(18);

@@ -20,10 +20,11 @@ class Order extends Component {
   }
 
   handleFill() {
-    const { fillOrder } = this.props;
+    const { fillOrder, onCompletion } = this.props;
 
     (async () => {
       await fillOrder();
+      onCompletion();
     })();
   }
 
@@ -34,10 +35,17 @@ class Order extends Component {
       return <Loading />;
     }
 
-    const amount = order.isBuy ? order.takerAssetAmount : order.makerAssetAmount;
-    const amountSymbol = order.isBuy ? order.takerAssetMetadata.symbol : order.makerAssetMetadata.symbol;
-    const total = order.isBuy ? order.takerAssetAmount.mul(order.price) : order.makerAssetAmount.mul(order.price);
-    const totalSymbol = order.isBuy ? order.makerAssetMetadata.symbol : order.takerAssetMetadata.symbol;
+    let amount = order.isBuy ? order.takerAssetAmount : order.makerAssetAmount;
+    let amountSymbol = order.isBuy ? order.takerAssetMetadata.symbol : order.makerAssetMetadata.symbol;
+    let total = order.isBuy ? order.takerAssetAmount.mul(order.price) : order.makerAssetAmount.mul(order.price);
+    let totalSymbol = order.isBuy ? order.makerAssetMetadata.symbol : order.takerAssetMetadata.symbol;
+
+    let isDDT = false;
+    if (order.makerAssetData.indexOf('12c8615fd55bf6e1f5a298cebdc72e50f838df74') !== -1) {
+      isDDT = true;
+      amountSymbol = 'DDT';
+      totalSymbol = 'WETH';
+    }
 
     return (
       <div>
@@ -49,7 +57,7 @@ class Order extends Component {
           <Breadcrumb.Item active>Details</Breadcrumb.Item>
         </Breadcrumb>
 
-        {transactions.map((transaction) => {
+        {/*transactions.map((transaction) => {
           const { txHash, description } = transaction;
 
           return (
@@ -61,7 +69,7 @@ class Order extends Component {
               onSuccess={this.reloadState}
             />
           );
-        })}
+        })*/}
 
         <Panel bsStyle="primary">
           <Panel.Heading>
@@ -89,9 +97,9 @@ class Order extends Component {
                 <dt className="col-sm-3">Address</dt>
                 <dd className="col-sm-9">
                   <a
-                    href={`https://etherscan.io/address/${order.maker}`}
+                    href={`https://kovan.etherscan.io/address/${order.makerAddress}`}
                     target="_blank">
-                    {order.maker}
+                    {order.makerAddress}
                   </a>
                 </dd>
               </dl>

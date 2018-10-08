@@ -24,8 +24,8 @@ class CreateOrderContainer extends Component {
    * When the loan request is created, we redirect the user back to the table that includes
    * all of the loan requests, and highlight the newly created request.
    */
-  onCompletion(id) {
-    this.props.history.push(`/?highlightRow=${id}`);
+  onCompletion(orderHash) {
+    this.props.history.push(`/order/${orderHash}`);
   }
 
   async componentDidMount() {

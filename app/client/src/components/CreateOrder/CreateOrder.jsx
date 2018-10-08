@@ -70,7 +70,7 @@ class CreateOrder extends Component {
       takerTokenAddress = tokenPair.tokenB.address;
       makerAssetData = assetDataUtils.encodeERC20AssetData(makerTokenAddress);      
       takerAssetData = assetDataUtils.encodeERC20AssetData(takerTokenAddress);
-      makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber((amount * price).toString()), tokenPair.tokenA.decimals);
+      makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber((amount * price).toString().substring(0,12)), tokenPair.tokenA.decimals);
       takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(amount), tokenPair.tokenB.decimals);
     }
 
@@ -82,15 +82,15 @@ class CreateOrder extends Component {
       makerAssetData = assetDataUtils.encodeERC20AssetData(makerTokenAddress);
       takerAssetData = assetDataUtils.encodeERC20AssetData(takerTokenAddress);
       makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(amount), tokenPair.tokenB.decimals);
-      takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber((amount * price).toString()), tokenPair.tokenA.decimals);
+      takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber((amount * price).toString().substring(0,12)), tokenPair.tokenA.decimals);
     }
     
-    const setMakerAllowTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(makerTokenAddress, makerAddress);
+    /*const setMakerAllowTxHash = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(makerTokenAddress, makerAddress);
     await web3Wrapper.awaitTransactionSuccessAsync(setMakerAllowTxHash);
-    console.log('makerAddress allowance mined...');
+    console.log('makerAddress allowance mined...');*/
 
     try {
-      const id = await handleCreateOrder({
+      const orderHash = await handleCreateOrder({
         makerAddress: makerAddress,
         takerAddress: NULL_ADDRESS,
         feeRecipientAddress: NULL_ADDRESS,
@@ -106,7 +106,7 @@ class CreateOrder extends Component {
         expirationTimeSeconds: new BigNumber(Date.now() + 3600000), // Valid for up to an hour
         isBuy: orderDirection == 'Buy'
       });
-      onCompletion(id);
+      onCompletion(orderHash);
     } catch (e) {
       console.error(e);
     }
@@ -128,19 +128,19 @@ class CreateOrder extends Component {
 
     let makerTokenAddress, makerAssetData, takerAssetData, makerAssetAmount, takerAssetAmount;
     
-    
-    makerAssetData = assetDataUtils.encodeERC721AssetData(config.dharmaDebtToken, tokenId);      
+    console.log('ERC721', config.dharmaDebtToken, tokenId);
+    makerAssetData = assetDataUtils.encodeERC721AssetData(config.dharmaDebtToken, new BigNumber(tokenId));      
     takerAssetData = assetDataUtils.encodeERC20AssetData(WETH_ADDRESS);
-    makerAssetAmount = Web3Wrapper.toBaseUnitAmount(1, 0);
+    makerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(1), 18);
     takerAssetAmount = Web3Wrapper.toBaseUnitAmount(new BigNumber(price), 18);
   
     
-    const setMakerAllowTxHash = await contractWrappers.erc721Token.setProxyApprovalAsync(config.dharmaDebtToken, tokenId);
+    /*const setMakerAllowTxHash = await contractWrappers.erc721Token.setProxyApprovalAsync(config.dharmaDebtToken, new BigNumber(tokenId));
     await web3Wrapper.awaitTransactionSuccessAsync(setMakerAllowTxHash);
-    console.log('makerAddress allowance mined...');
+    console.log('makerAddress allowance mined...');*/
 
     try {
-      const id = await handleCreateOrder({
+      const orderHash = await handleCreateOrder({
         makerAddress: makerAddress,
         takerAddress: NULL_ADDRESS,
         feeRecipientAddress: NULL_ADDRESS,
@@ -156,7 +156,7 @@ class CreateOrder extends Component {
         expirationTimeSeconds: new BigNumber(Date.now() + 3600000), // Valid for up to an hour
         isBuy: false
       });
-      onCompletion(id);
+      onCompletion(orderHash);
     } catch (e) {
       console.error(e);
     }

@@ -71,14 +71,14 @@ class OrderCreator extends Component {
     console.log('signedOrder:', signedOrder);
 
     // Create Loan Request and update local cache
-    const { data: { orderCreate: { id } } } = await client.mutate(
+    const { data: { orderCreate: { id, hash } } } = await client.mutate(
       {
         mutation: ORDER_CREATE,
         variables: { data: signedOrder },
         refetchQueries: ['ordersList', 'orderbook']        
       });
 
-    return id;
+    return hash;
   }
 
   render() {

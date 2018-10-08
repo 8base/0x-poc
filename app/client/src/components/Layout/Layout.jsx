@@ -21,7 +21,7 @@ const WYRE_ABI = JSON.parse('[{"anonymous":false,"inputs":[{"indexed":true,"name
 const WyreButton = (props) => {
   return (
     <div>      
-      <Button {...props} variant="contained" color="primary">Open Wyre</Button>
+      <Button {...props} variant="contained" color="primary">Start Verification</Button>
     </div>    
   );
 }

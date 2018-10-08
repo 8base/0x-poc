@@ -234,13 +234,13 @@ class OrderLoader extends Component {
     console.log('takerAddress allowance mined...');*/
 
     // Validator approval
-    const validatorApprovalTxHash = await contractWrappers.exchange.setSignatureValidatorApprovalAsync(
+    /*const validatorApprovalTxHash = await contractWrappers.exchange.setSignatureValidatorApprovalAsync(
       config.filterContractAddress, true, takerAddress,
       {
         gasLimit: 5000000
       });
     await web3Wrapper.awaitTransactionSuccessAsync(validatorApprovalTxHash);
-    console.log('Validator Approval Mined');
+    console.log('Validator Approval Mined');*/
 
     // Filling order
     const web3 = new Web3(window.web3.currentProvider);
