@@ -10,9 +10,15 @@
     "path": "^0.12.7",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "web3": "v0.20.6"
+    "web3": "v0.20.6",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@types/request-promise-native": "^1.0.15"
-  }
+  },
+  "scripts": {
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
+  },
+  "snyk": true
 }
