@@ -13,6 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "ethereumjs-abi": "^0.6.5",
-    "truffle-hdwallet-provider": "0.0.6"
+    "truffle-hdwallet-provider": "1.0.0"
   }
 }
